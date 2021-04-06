@@ -35,6 +35,19 @@ enum eDirection{
     REVERSE
 }
 /**
+ * TODO:获取各种数据
+ */
+enum eData{
+    //%block="curFileNumber"
+    FILENUMBER,
+    //%block="Totalfild"
+    TOTALFILE, 
+    //% block="CurTime"
+    CURTIME,
+    //% block="TotalTime"
+    TOTALTIME
+}
+/**
  * 自定义图形块
  */
 //% weight=100 color=#0fbc11 icon="\uf025" block="DFPlayer EDU"
@@ -100,9 +113,42 @@ namespace DFPlayerEDU{
     export function setPlayTime(second:number):void{
         
    }
+    /**
+     * TODO:播放指定编号文件，编号根据文件拷贝进U盘先后顺序排列
+     * @param num 文件编号
+     */
+    //% weight=30
+    //% block="play file num %num"
+    export function playFileNum(num:number):void{
 
+    }
+    /**
+     * DOTO:删除当前播放文件
+     */
+    //% weight=20
+    //% block="delet file"
+    export function delCurFile():void{
 
+    }
     
+    /**
+     * DOTO:获取文件编号，获取可播放文件个数，获取当前歌曲播放时间，获取当前歌曲播放总时间
+     * @param data:获取的数据
+     */
+    //% weight=10
+    //%block="get %data"
+    export function getData(data:eData):number{
+     return 0
+    }
+    
+    /**
+     * TODO:获取文件名称
+     */
+    //weight=1
+    //block="get file name"
+    export function getFileName():string{
+        return "a"
+    }
 
 
 }
