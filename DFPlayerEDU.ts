@@ -11,28 +11,28 @@ enum ePlayMode{
  * TODO:设置播放状态
  */
 enum ePlayState{
-    //%block="start"
+    //% block="start"
     START,
-    //%block="pause"
+    //% block="pause"
     PAUSE
 }
 /**
  * TODO:歌曲选择
  */
 enum eSongChoice{
-    //%block="next"
+    //% block="next"
     NEXT,
-    //%block="last"
-    LAST 
-
+    //% block="last"
+    LAST
+}
 /**
  * TODO:快进和后退选择
  */
 enum eDirection{
-    //%block="forward"
-    FORWARD, 
-    //%block="reverse"
-    REVERSE 
+    //% block="forward"
+    FORWARD,
+    //% block="reverse"
+    REVERSE
 }
 /**
  * 自定义图形块
@@ -99,7 +99,7 @@ namespace DFPlayerEDU{
     //% block="set play time %second"
     export function setPlayTime(second:number):void{
         
-    }
+   }
 
 
     
