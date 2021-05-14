@@ -3,10 +3,15 @@
  * TODO:设置播放模式
  */
 enum ePlayMode{
+    //% block="single cycle"
     SINGLECYCLE=1,
+    //% block="all cycle"
     ALLCYCLE,
+    //% block="single"
     SINGLE,
+    //% block="random"
     RANDOM,
+    //% block="folder"
     FOLDER, 
 }
 /**
@@ -31,7 +36,9 @@ enum eSongChoice{
  * TODO:设置工作模式
  */
 enum eWorkPattern{
+    //% block="music mode"
     MUSIC = 1,  //Music Mode 
+    //% block="U fdisk mode"
     UFDISK,     //Slave mode 
   };
 /**
