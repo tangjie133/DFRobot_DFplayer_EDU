@@ -47,20 +47,20 @@ enum eWorkPattern{
 enum eDirection{
     //% block="forward"
     FORWARD,
-    //% block="reverse"
-    REVERSE
+    //% block="rewind"
+    REWIND
 }
 /**
  * TODO:获取各种数据
  */
 enum eData{
-    //%block="curFileNumber"
+    //%block="current file number"
     FILENUMBER,
-    //%block="Totalfild"
+    //%block="total file"
     TOTALFILE, 
-    //% block="CurTime"
+    //% block="current time"
     CURTIME,
-    //% block="TotalTime"
+    //% block="total time"
     TOTALTIME
 }
 /**
@@ -112,7 +112,7 @@ namespace DFPlayerEDU{
      * @param vol 声音大小值, eg: 50
      */
     //% weight=90
-    //% block="set volume %vol"
+    //% block="set vol %vol"
     //% vol.min=0 vol.max=30
     export function setVol(vol:number):void{
         let cmd = pack("VOL",vol.toString())
@@ -125,7 +125,7 @@ namespace DFPlayerEDU{
      * @param vol 声音大小值, eg: 50
      */
      //% weight=89
-     //% block="get volume %vol"
+     //% block="get vol %vol"
     //% vol.min=0 vol.max=30
     export function getVol():string{
         let cmd = pack("VOL","?")
@@ -174,7 +174,7 @@ namespace DFPlayerEDU{
      * @param choice 选择歌曲是上一曲还是下一曲 NEXT:下一曲 LAST:上一曲
      */
     //% weight=60
-    //% block="song choice %choice"
+    //% block="switch to %choice"
     export function songChoice(choice:eSongChoice):void{
         if(choice == 0){
             let cmd = pack("PLAY","NEXT")
@@ -240,7 +240,7 @@ namespace DFPlayerEDU{
      * DOTO:删除当前播放文件
      */
     //% weight=20
-    //% block="delet file"
+    //% block="delete file"
     export function delCurFile():void{
         //patternDetection();
         let cmd = "AT+DEL"
