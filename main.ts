@@ -1,1 +1,1 @@
-
+DFPlayerEDU.switchFunction(eWorkPattern.MUSIC)

@@ -1,1 +1,1 @@
-<xml xmlns="https://developers.google.com/blockly/xml"><block type="pxt-on-start" id="M4t-Co}aWI@jM8#|px$B" x="0" y="0"/></xml>
+<xml xmlns="https://developers.google.com/blockly/xml"><block type="pxt-on-start" id="M4t-Co}aWI@jM8#|px$B" x="0" y="0"><statement name="HANDLER"><block type="DFPlayerEDU_switchFunction" id="$s4lq7[[I2p`4i.?H{-g"><field name="workPattern">eWorkPattern.MUSIC</field></block></statement></block></xml>
