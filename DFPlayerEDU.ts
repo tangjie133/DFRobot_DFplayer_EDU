@@ -3,12 +3,11 @@
  * TODO:设置播放模式
  */
 enum ePlayMode{
-    SINGLECYCLE,
+    SINGLECYCLE=1,
     ALLCYCLE,
     SINGLE,
     RANDOM,
     FOLDER, 
-    ERROR
 }
 /**
  * TODO:设置播放状态
@@ -28,6 +27,13 @@ enum eSongChoice{
     //% block="last"
     LAST
 }
+/**
+ * TODO:设置工作模式
+ */
+enum eWorkPattern{
+    MUSIC = 1,  //Music Mode 
+    UFDISK,     //Slave mode 
+  };
 /**
  * TODO:快进和后退选择
  */
@@ -55,16 +61,44 @@ enum eData{
  */
 //% weight=100 color=#0fbc11 icon="\uf025" block="DFPlayer EDU"
 namespace DFPlayerEDU{
-    let pauseFlag = 0
+    let pauseFlag = 0;
+    let curFunction = 1 ;
     /**
-     * TODO:音乐模式
+     * TODO:设置工作模式
+     */
+    //% weight=93
+    //% block="set work pattern %workPattern"
+    export function switchFunction(workPattern:eWorkPattern):void{
+        let cmd = pack("FUNCTION",workPattern.toString());
+        curFunction = workPattern;
+        writeATCommand(cmd,cmd.length);
+        basic.pause(150);
+        pauseFlag = 0;
+        returnstate();
+    }
+    /**
+     * TODO:设置播放模式
+     */
+    //% weight=92
+    //% block="set play mode %playMode"
+    export function setPlayMode(playMode:ePlayMode):void{
+        //patternDetection();
+        let cmd = pack("PLAYMODE",playMode.toString());
+        writeATCommand(cmd,cmd.length);
+        basic.pause(150);
+         returnstate();
+    }
+    /**
+     * TODO:获取播放模式
      */
     //% weight=91
-    //% block="start music mode"
-    export function switchFunction():void{
-        let str = pack("BAUDRATE","1")
-        writeATCommand(str,str.length)
-        returnstate()
+    //% block="get play mode"
+    export function getPlayMode():string{
+        let cmd = pack("PLAYMODE","?");
+        writeATCommand(cmd,cmd.length);
+        basic.pause(150);
+        let strMode = readAck(13);
+       return strMode.slice(10);
     }
     /**
      * TODO: 设置声音大小
@@ -74,21 +108,24 @@ namespace DFPlayerEDU{
     //% block="set volume %vol"
     //% vol.min=0 vol.max=30
     export function setVol(vol:number):void{
-        let str = pack("VOL",vol.toString())
-        writeATCommand(str,str.length)
+        let cmd = pack("VOL",vol.toString())
+        writeATCommand(cmd,cmd.length)
+        basic.pause(150)
         returnstate()
     }
-
     /**
-     * TODO: 设置播放模式
-     * @param modo SINGLECYCLE,ALLCYCLE,SINGLE
+     * TODO: 获取音量大小
+     * @param vol 声音大小值, eg: 50
      */
-    //% weight=80
-    //% block="set play mode %mode"
-    export function setPlayMode(mode:ePlayMode):void{
-        let str = pack("PLAYMODE",mode.toString())
-        writeATCommand(str,str.length)
-        returnstate()
+     //% weight=89
+     //% block="get volume %vol"
+    //% vol.min=0 vol.max=30
+    export function getVol():string{
+        let cmd = pack("VOL","?")
+        writeATCommand(cmd,cmd.length)
+        basic.pause(150)
+        let str = readAck(12);
+        return str.slice(7,9)
     }
 
     /**
@@ -99,25 +136,27 @@ namespace DFPlayerEDU{
     //% block="set play state %mode "
     export function setPlayState(mode:ePlayState):void{
         if(mode == 0){
-           let str = pack("PLAY","PP")
+           let cmd = pack("PLAY","PP")
            if(pauseFlag == 1){
                basic.showIcon(IconNames.No)
-               basic.pause(100)
+               basic.pause(150)
                basic.clearScreen()
            }else{
-               pauseFlag = 1
-               writeATCommand(str,str.length)
+               pauseFlag = 1;
+               writeATCommand(cmd,cmd.length)
+               basic.pause(150)
                returnstate()
            }
         }else if(mode = 1){
-            let str = pack("PLAY","PP")
-           if(pauseFlag == 1){
+            let cmd = pack("PLAY","PP")
+           if(pauseFlag == 0){
                basic.showIcon(IconNames.No)
-               basic.pause(100)
+               basic.pause(150)
                basic.clearScreen()
            }else{
-               pauseFlag = 0
-               writeATCommand(str,str.length)
+               pauseFlag = 0;
+               writeATCommand(cmd,cmd.length)
+               basic.pause(150)
                returnstate()
            }
         }
@@ -131,12 +170,14 @@ namespace DFPlayerEDU{
     //% block="song choice %choice"
     export function songChoice(choice:eSongChoice):void{
         if(choice == 0){
-            let str = pack("PLAY","NEXT")
-            writeATCommand(str,str.length)
+            let cmd = pack("PLAY","NEXT")
+            writeATCommand(cmd,cmd.length)
+            basic.pause(150)
             returnstate()
         }else if(choice = 1){
-            let str = pack("PLAY","LAST")
-            writeATCommand(str,str.length)
+            let cmd = pack("PLAY","LAST")
+            writeATCommand(cmd,cmd.length)
+            basic.pause(150)
             returnstate()
         }
     }
@@ -150,13 +191,15 @@ namespace DFPlayerEDU{
     export function fastForwardOrReverse(state:eDirection,second:number):void{
         if(state == 0){
             let str = "+" + second.toString()
-            let str2 = pack("TIME",str)
-            writeATCommand(str2,str2.length)
+            let cmd = pack("TIME",str)
+            writeATCommand(cmd,cmd.length)
+            basic.pause(150)
             returnstate()
         }else if(state = 1){
             let str = "-" + second.toString()
-            let str2 = pack("TIME",str)
-            writeATCommand(str2,str2.length)
+            let cmd = pack("TIME",str)
+            writeATCommand(cmd,cmd.length)
+            basic.pause(150)
             returnstate()
         }
     }
@@ -168,8 +211,10 @@ namespace DFPlayerEDU{
     //% weight=40
     //% block="set play time %second"
     export function setPlayTime(second:number):void{
-        let str = pack("TIME",second.toString())
-        writeATCommand(str,str.length)
+        //patternDetection();
+        let cmd = pack("TIME",second.toString())
+        writeATCommand(cmd,cmd.length)
+        basic.pause(150)
         returnstate()
    }
     /**
@@ -179,8 +224,9 @@ namespace DFPlayerEDU{
     //% weight=30
     //% block="play file num %num"
     export function playFileNum(num:number):void{
-        let str = pack("PLAYNUM",num.toString())
-        writeATCommand(str,str.length)
+        let cmd = pack("PLAYNUM",num.toString())
+        writeATCommand(cmd,cmd.length)
+        basic.pause(150)
         returnstate()
     }
     /**
@@ -189,8 +235,10 @@ namespace DFPlayerEDU{
     //% weight=20
     //% block="delet file"
     export function delCurFile():void{
-        let str = "DEL"
-        writeATCommand(str,str.length)
+        //patternDetection();
+        let cmd = "AT+DEL"
+        writeATCommand(cmd,cmd.length)
+        basic.pause(150)
         returnstate()
     }
     
@@ -201,9 +249,28 @@ namespace DFPlayerEDU{
     //% weight=10
     //%block="get %data"
     export function getData(data:eData):number{
-        if(data == 0){
-            let str = pack("QUERY","1")
-            writeATCommand(str,str.length)
+        if(data == eData.FILENUMBER){
+            let cmd = pack("QUERY","1")
+            writeATCommand(cmd,cmd.length)
+            basic.pause(150)
+            let str1 = readAck(6)
+            return getINT(str1)
+        }else if(data == eData.TOTALFILE){
+            let cmd = pack("QUERY","2")
+            writeATCommand(cmd,cmd.length)
+            basic.pause(150)
+            let str1 = readAck(6)
+            return getINT(str1)
+        }else if(data == eData.CURTIME){
+            let cmd = pack("QUERY","3")
+            writeATCommand(cmd,cmd.length)
+            basic.pause(150)
+            let str1 = readAck(6)
+            return getINT(str1)
+        }else if(data == eData.TOTALTIME){
+            let cmd = pack("QUERY","4")
+            writeATCommand(cmd,cmd.length)
+            basic.pause(150)
             let str1 = readAck(6)
             return getINT(str1)
         }
@@ -213,30 +280,52 @@ namespace DFPlayerEDU{
     /**
      * TODO:获取文件名称
      */
-    /*
-    //weight=1
-    //block="get file name"
+    
+    //%weight=1
+    //%block="get file name"
     export function getFileName():string{
+        let j = 0;
         let cmd = pack("QUERY","5")
-        let str = readAck(0)
-        let name = ""
-        for(let i = 0;i < str.length();i+=2){
-            letdataUnicode = (str[i+1] << 8) | (uint8_t)str[i];
-            if(dataUnicode == 0x0a0d) break;
-          let len = unicodeToUtf8(dataUnicode,dataUtf8);
-        char *cDataUtf8 =(char *)dataUtf8;
-      
-      for(uint8_t i=0;i < len ;i++){
-        name += cDataUtf8[i];
-        //Serial.print(cDataUtf8[i],HEX);
-     }
+        writeATCommand(cmd,cmd.length)
+        basic.pause(150)
+        let buffer = pins.i2cReadBuffer(0x1f, 40)
+        for (let i =0; i < 40;i++){
+            if(buffer[i] == 13){
+                if(buffer[i+1] == 10){
+                    j=j+2;
+                        break;
+                }
+                }
+                j++;
+        }
+        for (let i = 0;i<j;i++){
+            serial.writeValue("x", buffer[i])
+        }
+        let str = ""
+        for(let i = 0;i<(j-2);){
+            if(buffer[i] != 32){
+                str += String.fromCharCode(buffer[i])
+            }
+            i+=2;
+        }
+        return str;
+    }
+    /**
+     * TODO:播放指定路径文件
+     * @param path 文件路径
+     */
+    //% weight=9
+    //% block="set play time %second"
+    export function playSpecFile(path:string):void{
+        //patternDetection();
+        let cmd = pack("PLAYFILE",path);
+        writeATCommand(cmd,cmd.length);
+        basic.pause(150);
+        returnstate();
    }
-        return "a"
-    }*/
     
     function pack(cmd:string,para:string):string{
-     let atCmd = ""
-     atCmd += "AT"
+     let atCmd ="AT"
      if(cmd != " "){
          atCmd += "+"
          atCmd += cmd
@@ -249,29 +338,39 @@ namespace DFPlayerEDU{
      return atCmd
     }
     function writeATCommand(command:string,length:number):void{
-        let data = pins.createBuffer(40)
+        let data = pins.createBuffer(length)
         for(let i = 0; i < length; i++){
-            data[i] = command.charCodeAt(i)
+            data[i] = command.charCodeAt(i);
         }
-        pins.i2cWriteBuffer(0xef, data)
+        pins.i2cWriteBuffer(0x1f, data)
     }
     
     function readAck(len:number = 0):string{
         let str = ""
+        //serial.writeNumber(len)
         if(len == 0){
-            let buf = pins.i2cReadBuffer(0xef, 4);
-            if(String.fromCharCode(buf[2]) == '\r' && String.fromCharCode(buf[3]) == '\n' ){
+            let buf = pins.i2cReadBuffer(0x1f, 4);
+            if(buf[2]== 13 && buf[3] ==  10){
                 for(let i = 0; i < 4; i++){
                     str += String.fromCharCode(buf[i])
                 }
             }
             
         }else{
-            let buf = pins.i2cReadBuffer(0xef, len)
-            if(String.fromCharCode(buf[len-2]) == '\r' && String.fromCharCode(buf[len-1]) == '\n' ){
-                for(let i = 0; i < 4; i++){
-                    str += String.fromCharCode(buf[i])
+            let j = 0;
+            let buffer = pins.i2cReadBuffer(0x1f, len)
+            for(let i = 0; i<len;i++){
+                if(buffer[i] == 13){
+                    if(buffer[i+1] == 10){
+                        j=j+2;
+                        break;
+                    }
                 }
+                j++;
+            }
+            for(let i = 0; i < j; i++){
+                //serial.writeNumber(buffer[i])
+                str += String.fromCharCode(buffer[i])
             }
         }
         return str
@@ -279,6 +378,8 @@ namespace DFPlayerEDU{
     function returnstate():void{
         while(readAck() != "OK\r\n"){
             basic.showIcon(IconNames.No)
+            basic.pause(100)
+            basic.clearScreen()
             basic.pause(100)
         }
         basic.showIcon(IconNames.Yes)
@@ -294,12 +395,20 @@ namespace DFPlayerEDU{
                 break
         } 
    }
-
     for(let i = 0; i < numLen;i++){
       
       num = num * 10 + str.charCodeAt(i) - 48
       
     }
     return num;
+    }
+
+    function patternDetection():void{
+        while(curFunction != eWorkPattern.MUSIC){
+            basic.showIcon(IconNames.No)
+            basic.pause(100)
+            basic.clearScreen()
+            basic.pause(100)
+        }
     }
 }
