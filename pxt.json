@@ -11,6 +11,7 @@
         "main.blocks",
         "main.ts",
         "README.md",
+        "_locales/zh-cn/DFRobot_DFPlayer_EDU-strings.json",
         "DFPlayerEDU.ts"
     ],
     "testFiles": [
