@@ -194,7 +194,7 @@ namespace DFPlayerEDU{
      * @param second 快进/后退时间（单位：s）
      */
     //% weight=50
-    //% block="fast %state second %second"
+    //% block="music fast %state second %second"
     export function fastForwardOrReverse(state:eDirection,second:number):void{
         if(state == 0){
             let str = "+" + second.toString()
@@ -229,7 +229,7 @@ namespace DFPlayerEDU{
      * @param num 文件编号
      */
     //% weight=30
-    //% block="play file num %num"
+    //% block="play file %num"
     export function playFileNum(num:number):void{
         let cmd = pack("PLAYNUM",num.toString())
         writeATCommand(cmd,cmd.length)
@@ -322,7 +322,7 @@ namespace DFPlayerEDU{
      * @param path 文件路径
      */
     //% weight=9
-    //% block="set play time %second"
+    //% block="playback path file %path"
     export function playSpecFile(path:string):void{
         //patternDetection();
         let cmd = pack("PLAYFILE",path);
