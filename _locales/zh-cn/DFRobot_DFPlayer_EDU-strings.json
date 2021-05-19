@@ -21,7 +21,7 @@
     "DFPlayerEDU.getPlayMode|block":"获取播放模式",
     "DFPlayerEDU.setVol|block":"设置音量 %vol",
     "DFPlayerEDU.getVol|block":"获取音量",
-    "DFPlayerEDU.setPlayState|block":"设置播放模式 %mode",
+    "DFPlayerEDU.setPlayState|block":"设置播放状态 %mode",
     "DFPlayerEDU.songChoice|block":"切换 %choice",
     "DFPlayerEDU.fastForwardOrReverse|block":"歌曲 %state 时间 %second",
     "DFPlayerEDU.setPlayTime|block":"设置播放时间 %second",
@@ -29,6 +29,7 @@
     "DFPlayerEDU.delCurFile|block":"删除文件",
     "DFPlayerEDU.getData|block":"获取 %data",
     "DFPlayerEDU.getFileName|block":"获取文件名",
-    "DFPlayerEDU.playSpecFile|block":"播放路径文件 %path"
+    "DFPlayerEDU.playSpecFile|block":"播放路径文件 %path",
+    "DFPlayerEDU.getPlayState|block":"获取播放状态"
     
 }
