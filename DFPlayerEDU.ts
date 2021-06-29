@@ -317,9 +317,9 @@ namespace DFPlayerEDU{
                 }
                 j++;
         }
-        for (let i = 0;i<j;i++){
-            serial.writeValue("x", buffer[i])
-        }
+        //for (let i = 0;i<j;i++){
+            //serial.writeValue("x", buffer[i])
+        //}
         let str = ""
         for(let i = 0;i<(j-2);){
             if(buffer[i] != 32){
@@ -396,14 +396,14 @@ namespace DFPlayerEDU{
     }
     function returnstate():void{
         while(readAck() != "OK\r\n"){
-            basic.showIcon(IconNames.No)
-            basic.pause(100)
-            basic.clearScreen()
-            basic.pause(100)
+            //basic.showIcon(IconNames.No)
+            //basic.pause(100)
+            //basic.clearScreen()
+            //basic.pause(100)
         }
-        basic.showIcon(IconNames.Yes)
-        basic.pause(100)
-        basic.clearScreen()
+        //basic.showIcon(IconNames.Yes)
+        //basic.pause(100)
+        //basic.clearScreen()
     }
     function getINT(str:string):number{
         let num = 0,numLen = 0
