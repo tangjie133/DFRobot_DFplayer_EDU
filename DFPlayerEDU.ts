@@ -100,13 +100,14 @@ namespace DFPlayerEDU{
      */
     //% weight=91
     //% block="get play mode"
-    export function getPlayMode():string{
+    export function getPlayMode():number{
         let cmd = pack("PLAYMODE","?");
         writeATCommand(cmd,cmd.length);
         //basic.pause(200);
         let strMode = readAck(13);
-       return strMode.slice(10);
+        return parseFloat(strMode.slice(10));
     }
+    "" + 5
     /**
      * TODO: 设置声音大小
      * @param vol 声音大小值, eg: 50
@@ -127,12 +128,12 @@ namespace DFPlayerEDU{
      //% weight=89
      //% block="get vol %vol"
     //% vol.min=0 vol.max=30
-    export function getVol():string{
+    export function getVol():number{
         let cmd = pack("VOL","?")
         writeATCommand(cmd,cmd.length)
         //basic.pause(200)
         let str = readAck(12);
-        return str.slice(7,9)
+        return parseFloat(str.slice(7,9));
     }
 
     /**
@@ -173,12 +174,12 @@ namespace DFPlayerEDU{
      */
     //% weight=69
     //% block="get play state"
-    export function getPlayState():string{
+    export function getPlayState():number{
         let cmd = pack("PLAYSTATUS"," ")
         writeATCommand(cmd,cmd.length)
         //basic.pause(200)
         let str = readAck(3);
-        return str.slice(0,1)
+        return parseFloat(str.slice(0,1));
     }
 
     /**
