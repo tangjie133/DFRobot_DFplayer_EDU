@@ -15,7 +15,6 @@
         "DFPlayerEDU.ts"
     ],
     "testFiles": [
-        "test.ts"
     ],
     "targetVersions": {
         "target": "4.0.9",
